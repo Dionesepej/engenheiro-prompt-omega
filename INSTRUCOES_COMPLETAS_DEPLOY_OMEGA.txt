@@ -1,0 +1,58 @@
+📘 INSTRUÇÕES DO SISTEMA — CRIAÇÃO COMPLETA DE AGENTE GPT OMEGA
+
+🚩 OBJETIVO:
+Criar, configurar e publicar um agente GPT com Ações personalizadas, utilizando FastAPI, GitHub e Render, com integração completa via OpenAPI no GPT Builder.
+
+---
+
+🔁 FLUXO COMPLETO OMEGA — PASSO A PASSO
+
+🔹 PASSO 1 — CRIAR O AGENTE
+- Nomeie seu agente e defina sua função (ex: Engenheiro de Prompt)
+- Crie o arquivo `main_<nome_do_agente>.py` com a API FastAPI
+- Estruture as rotas conforme padrão OpenAPI 3.1.0
+
+🔹 PASSO 2 — CRIAR OS ARQUIVOS OBRIGATÓRIOS
+- `main_<agente>.py` → servidor com as rotas
+- `requirements.txt` → dependências mínimas (ex: fastapi, uvicorn, pydantic)
+- `acoes_<agente>.yaml` ou `.json` → todas as ações definidas no padrão OpenAPI
+
+🔹 PASSO 3 — SUBIR NO GITHUB
+- Criar repositório novo (ex: `engenheiro-prompt-api`)
+- Adicionar os arquivos na raiz do repositório
+- Commitar com mensagem clara (ex: “versão inicial do agente”)
+
+🔹 PASSO 4 — DEPLOY NO RENDER (Web Service)
+1. Vá até: https://dashboard.render.com
+2. Clique em **New > Web Service**
+3. Escolha: **Connect GitHub**
+4. Selecione o repositório criado
+5. Configure:
+   - Runtime: Python 3.x
+   - Build Command: `pip install -r requirements.txt`
+   - Start Command: `uvicorn main_<agente>:app --host 0.0.0.0 --port 10000`
+6. Render irá gerar uma URL pública (ex: https://engenheiro-prompt.onrender.com)
+
+🔹 PASSO 5 — INTEGRAR NO GPT BUILDER
+1. Acesse: https://chat.openai.com/gpts/editor
+2. Vá até a aba **AÇÕES**
+3. Clique em “Importar por arquivo”
+4. Faça upload do seu `acoes_<agente>.yaml` ou `.json`
+5. Verifique se as rotas aparecem corretamente
+6. Teste diretamente pela interface do GPT
+
+---
+
+✅ PADRÕES OBRIGATÓRIOS
+- Um `main.py` por agente (nunca compartilhe arquivo)
+- Uma OpenAPI por agente
+- Toda rota deve conter: input validado, resposta clara, fallback de erro
+- Sempre documentar (OpenAPI 3.1.0) com descrição, tipos e exemplos
+
+📦 Recomendado:
+- Diretório do agente: `./engenheiro_prompt/`
+- Nome dos arquivos: `main_engenheiro_prompt.py`, `requirements.txt`, `acoes_engenheiro_prompt.yaml`
+
+🧠 Versão Omega
+Instruções criadas pelo Criador de Agentes GPT Omega.
+Compatível com Render, GitHub, GPT Builder, FastAPI, OpenAPI 3.1.0

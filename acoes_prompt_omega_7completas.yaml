@@ -1,0 +1,227 @@
+openapi: 3.1.0
+info:
+  title: Ações do Engenheiro de Prompt Omega
+  version: 1.0.0
+  description: Conjunto de ações internas para blueprint, validação, refinamento e reversão de prompts com base em imagem ou texto.
+servers:
+  - url: https://jopepej.onrender.com
+    description: Servidor padrão de ações internas para GPTs
+paths:
+  /gerar-blueprint-prompt:
+    post:
+      operationId: gerarBlueprintPrompt
+      summary: Gera estrutura inicial de prompt funcional
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [tema, objetivo]
+              properties:
+                tema:
+                  type: string
+                publico_alvo:
+                  type: string
+                objetivo:
+                  type: string
+      responses:
+        "200":
+          description: Blueprint gerado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  persona:
+                    type: string
+                  tarefa:
+                    type: string
+                  contexto:
+                    type: string
+                  tecnicas:
+                    type: array
+                    items:
+                      type: string
+                  output_esperado:
+                    type: string
+
+  /validar-estrutura-prompt:
+    post:
+      operationId: validarEstruturaPrompt
+      summary: Avalia a estrutura lógica de um prompt
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prompt:
+                  type: string
+      responses:
+        "200":
+          description: Resultado da avaliação
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  validade:
+                    type: boolean
+                  observacoes:
+                    type: string
+                  score:
+                    type: number
+                    format: float
+
+  /refinar-por-selfcritique:
+    post:
+      operationId: refinarPorSelfCritique
+      summary: Reescreve um prompt após autocrítica técnica
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prompt_original:
+                  type: string
+      responses:
+        "200":
+          description: Prompt refinado entregue
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  versao_refinada:
+                    type: string
+                  comentarios:
+                    type: string
+
+  /executar-silent3x:
+    post:
+      operationId: executarSilent3x
+      summary: Valida um prompt com o protocolo SILENT+3X
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prompt:
+                  type: string
+      responses:
+        "200":
+          description: Resultado da validação tripla
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  aprovado:
+                    type: boolean
+                  erros_detectados:
+                    type: array
+                    items:
+                      type: string
+                  recomendacoes:
+                    type: string
+
+  /reverter-prompt-imagem:
+    post:
+      operationId: reverterPromptImagem
+      summary: Gera prompt reverso estimado com base em imagem fornecida
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [imagem_base64]
+              properties:
+                imagem_base64:
+                  type: string
+                  description: Imagem codificada em base64
+                otimizar_para_foto:
+                  type: boolean
+                  description: Gera versão fotográfica realista do prompt
+      responses:
+        "200":
+          description: Prompt reverso gerado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  descricao_tecnica:
+                    type: string
+                  prompt_estimado:
+                    type: string
+                  prompt_fotorealista:
+                    type: string
+        "400":
+          description: Erro na requisição
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erro:
+                    type: string
+
+
+  /otimizar-prompt-para-foto:
+    post:
+      operationId: otimizarPromptParaFoto
+      summary: Converte um prompt padrão em formato fotorrealista
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prompt_base:
+                  type: string
+      responses:
+        "200":
+          description: Versão fotográfica gerada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  prompt_fotorealista:
+                    type: string
+
+  /avaliar-coerencia-retorica:
+    post:
+      operationId: avaliarCoerenciaRetorica
+      summary: Avalia se o prompt é persuasivo e eficaz cognitivamente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prompt:
+                  type: string
+      responses:
+        "200":
+          description: Avaliação retórica concluída
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  coerencia:
+                    type: string
+                  estilo:
+                    type: string
+                  nivel_persuasao:
+                    type: string
